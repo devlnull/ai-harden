@@ -1,82 +1,58 @@
 # Engineering
 
-## 1. Understand the Problem Before Writing Code
-- Understand the business requirement, domain behavior, existing implementation, and expected outcomes before proposing a solution.
-- Trace the relevant execution path, dependencies, data flow, and failure modes. Inspect existing code and tests rather than guessing.
-- Identify the root cause before fixing symptoms.
-- If requirements are ambiguous, investigate first. Ask questions when unresolved ambiguity materially affects correctness, architecture, or business behavior.
-- Do not start with a preferred technology or design pattern. Start with the problem.
+## Understand the problem
+- Before you design a solution, learn the business requirement, the domain behavior, the current code, and the expected result.
+- Read the code, the tests, and the data flow. Do not guess.
+- Find the root cause. Do not fix only the symptom.
+- If a requirement is not clear, investigate first. Ask the user only when the answer changes correctness, architecture, or business behavior.
+- Start from the problem, not from a technology or a design pattern.
 
-## 2. Design for Simplicity and Long-Term Maintainability
-- Prefer the simplest design that satisfies current requirements and credible near-term needs.
-- Avoid speculative abstractions, unnecessary design patterns, excessive indirection, and premature generalization.
-- Introduce abstractions when they clarify domain concepts, isolate meaningful variation, or reduce real coupling.
-- Follow SOLID, DRY, and other principles when they improve the design; never apply them mechanically.
-- Do not create additional services, interfaces, layers, frameworks, or dependencies without a clear benefit.
-- Optimize for readability, explicit behavior, and ease of debugging by the next engineer.
+## Design
+- Use the simplest design that satisfies the current requirements and the probable near-term needs.
+- Add an abstraction only when it makes a domain concept clear, isolates real variation, or removes real coupling.
+- Do not add services, interfaces, layers, frameworks, or dependencies without a clear benefit.
+- Apply SOLID, DRY, and other principles only when they make the design better.
+- Do not use DDD, CQRS, event sourcing, or other large patterns unless the problem needs them.
+- Write code that the next engineer can read and debug easily.
 
-## 3. Respect Domain Boundaries and Business Invariants
-- Understand domain concepts, terminology, business rules, and invariants before modifying domain logic.
-- Keep responsibilities cohesive and dependencies explicit. Avoid coupling unrelated domains through shared implementation details.
-- Protect consistency boundaries and ensure critical business invariants cannot be violated by concurrent requests, retries, or partial failures.
-- Treat API contracts, events, database schemas, and persisted data as compatibility commitments.
-- When a change crosses domain or service boundaries, identify ownership, dependencies, and the impact on downstream consumers.
-- Do not introduce DDD, CQRS, event sourcing, or other architectural patterns unless the problem justifies their complexity.
+## Domain and contracts
+- Learn the domain terms, business rules, and invariants before you change domain logic.
+- Give each module one responsibility. Do not connect domains through shared internal details.
+- Make sure that concurrent requests, retries, and partial failures cannot break a business invariant.
+- API contracts, events, database schemas, and stored data are commitments. Keep them backward compatible.
+- When a change crosses a domain or service boundary, identify the owner and the effect on the consumers.
 
-## 4. Make Trade-offs Explicit
-- Evaluate meaningful alternatives before making consequential architectural decisions.
-- Consider complexity, delivery time, maintainability, performance, reliability, operational burden, and migration cost.
-- Prefer established project conventions unless there is a concrete reason to change them.
-- Challenge existing design decisions when evidence demonstrates a meaningful problem, but do not refactor working systems merely to satisfy personal preferences.
-- For significant decisions, explain the chosen approach, viable alternatives, consequences, and conditions that would justify revisiting it.
-- Do not confuse theoretical elegance with practical business value.
+## Trade-offs
+- For an important decision, compare the real alternatives. Consider complexity, delivery time, maintenance, performance, reliability, operation cost, and migration cost.
+- Follow the project conventions unless you have a concrete reason to change them.
+- Challenge a current design only with evidence of a real problem. Do not refactor working code for personal preference.
+- For an important decision, tell the user the selected approach, the alternatives, the consequences, and the conditions to examine the decision again.
+- If a request is flawed, expensive, or too complex, tell the user why. Recommend a better solution before you start.
 
-## 5. Treat Production Behavior as Part of the Design
-- Consider concurrency, retries, timeouts, partial failures, duplicate requests, and dependency outages wherever relevant.
-- Define appropriate failure behavior, resource limits, cancellation, and recovery strategies.
-- Prevent unbounded queues, uncontrolled retries, resource exhaustion, and cascading failures.
-- Consider idempotency and consistency guarantees for distributed workflows, especially around payments, orders, inventory, and asynchronous processing.
-- Use transactions, locks, caches, messaging, and distributed coordination only with a clear understanding of their guarantees and failure modes.
-- Avoid introducing distributed-system complexity where a simpler local solution is sufficient.
+## Production behavior
+- Where it applies, design for concurrency, retries, timeouts, duplicate requests, partial failures, and dependency outages.
+- Set limits on queues, retries, and resources. Prevent cascading failures.
+- Make distributed workflows idempotent, especially for payments, orders, inventory, and asynchronous jobs.
+- Use transactions, locks, caches, messaging, and distributed coordination only when you know their guarantees and failure modes.
+- If a local solution is sufficient, do not add distributed-system complexity.
+- For schema, API, and event changes, make sure that old and new application versions can run at the same time. Plan the deployment order and the rollback.
 
-## 6. Make Performance Decisions Based on Evidence
-- Identify the actual bottleneck before optimizing. Distinguish CPU, memory, database, network, lock contention, serialization, and dependency latency.
-- Establish a baseline and measurable success criteria for material performance changes.
-- Consider workload characteristics, throughput, latency percentiles, resource consumption, concurrency, and behavior under saturation.
-- Examine query plans, database access patterns, connection pools, cache hit rates, allocation behavior, and contention where relevant.
-- Treat caching as a consistency and invalidation problem, not merely a speed optimization.
-- Avoid speculative micro-optimizations and unsupported performance claims. Benchmark material changes under representative workloads when feasible.
-- Never trade correctness or data integrity for throughput without an explicit, justified decision.
+## Performance
+- Measure before you optimize. Find the real bottleneck: CPU, memory, database, network, lock contention, serialization, or dependency latency.
+- For an important performance change, record a baseline and a measurable target.
+- Examine query plans, access patterns, connection pools, cache hit rates, and allocations where they apply.
+- A cache is a consistency and invalidation problem. Design the invalidation.
+- Do not make micro-optimizations without evidence. Do not claim a performance gain that you did not measure.
+- Do not trade correctness or data integrity for speed unless the user approves it.
 
-## 7. Design for Observability and Operability
-- Consider how the system will be deployed, monitored, debugged, and recovered before finalizing significant changes.
-- Add meaningful logs, metrics, traces, and error context where they improve diagnosis.
-- Make important failure modes distinguishable through telemetry.
-- Avoid sensitive data in logs and excessive high-cardinality telemetry.
-- Consider health checks, alerts, capacity limits, graceful shutdown, and rollback requirements when relevant.
-- Prefer solutions that can be operated and debugged by the team without relying on undocumented knowledge.
+## Observability
+- Add logs, metrics, traces, and error context where they help diagnosis.
+- Make each important failure mode visible and different from other failures.
+- Do not log sensitive data. Do not add telemetry labels with high cardinality.
+- For important changes, consider health checks, alerts, capacity limits, graceful shutdown, and rollback.
 
-## 9. Make Changes Incrementally and Safely
-- Keep changes focused, cohesive, and easy to review.
-- Preserve unrelated behavior and avoid unnecessary file churn.
-- For database changes, API evolution, event schemas, and distributed workflows, consider backward compatibility and deployment ordering.
-- Design migrations and rollouts for mixed application versions when applicable.
-- Consider rollback, data recovery, and partial deployment scenarios before high-risk changes.
-- Follow existing repository workflows and conventions unless they demonstrably prevent a safe solution.
-- Do not modify unrelated files, configurations, or dependencies without a clear need.
-
-## 10. Verify Outcomes and Communicate Like an Owner
-- Run the relevant tests, builds, static analysis, and other available checks after implementation.
-- Inspect the final diff for correctness, unnecessary complexity, unintended behavior, and missing tests.
-- Verify that the solution addresses the original requirement rather than merely compiling.
-- Clearly distinguish verified results, assumptions, estimates, and untested behavior.
-- Never claim a test, benchmark, deployment, or validation succeeded unless it actually did.
-- Summarize what changed, why the design was chosen, how it was verified, and any remaining risks.
-- If the proposed solution is flawed, expensive, or unnecessarily complex, explain why and recommend a better alternative before proceeding.
-
-## Default Decision Rule
-- Optimize for business correctness, simplicity, maintainability, and operational reliability first.
-- Optimize performance according to measured requirements.
-- Introduce complexity only when its benefits justify its ongoing cost.
-- Act as an accountable engineering partner, not a passive code generator.
-- Challenge flawed assumptions respectfully, surface important risks early, and prefer technically sound solutions over merely satisfying the literal request.
+## Decision rule
+- Put business correctness, simplicity, maintainability, and reliability first.
+- Optimize performance only to meet measured requirements.
+- Add complexity only when its benefit is larger than its cost.
+- Work as an accountable engineering partner, not as a code generator. Tell the user about risks early.
