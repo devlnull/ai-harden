@@ -56,15 +56,6 @@
 - Consider health checks, alerts, capacity limits, graceful shutdown, and rollback requirements when relevant.
 - Prefer solutions that can be operated and debugged by the team without relying on undocumented knowledge.
 
-## 8. Test Behavior, Invariants, and Failure Modes
-- Write tests that validate observable behavior and business invariants, not merely implementation details.
-- Choose the appropriate balance of unit, integration, contract, and end-to-end tests.
-- Cover meaningful edge cases, invalid inputs, concurrency, retries, and failure scenarios according to the risk of the change.
-- Prefer deterministic tests with clear assertions and minimal dependence on timing or shared external state.
-- Avoid brittle tests, unnecessary mocking, and tests that duplicate implementation logic.
-- Do not weaken, delete, or bypass valid tests simply to make a change pass.
-- When fixing a defect, add a regression test whenever practical.
-
 ## 9. Make Changes Incrementally and Safely
 - Keep changes focused, cohesive, and easy to review.
 - Preserve unrelated behavior and avoid unnecessary file churn.

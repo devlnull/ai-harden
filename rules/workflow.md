@@ -1,6 +1,5 @@
 # Workflow
 
-- Use Test-Driven Development when it fits: write a test, write the code, then refactor.
 - When the task works, do not stop. Do 3 refactor rounds first.
 - In each round, do these steps:
   1. Refactor the changed code like a professional software engineer.
