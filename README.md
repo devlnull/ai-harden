@@ -4,22 +4,20 @@ Global rules for Claude Code.
 
 ## Structure
 
-- `CLAUDE.md` is the entry file. It imports each rule file with `@rules/<name>.md`.
 - `rules/` has one file for each topic.
+- Claude Code loads each file in `~/.claude/rules/` in every session. No import line is necessary.
 
 ## Install
 
-Copy the files into the global Claude directory:
+Link the global rules folder to this repo. Then each change in the repo applies on the next session:
 
 ```sh
-mkdir -p ~/.claude/rules
-cp CLAUDE.md ~/.claude/CLAUDE.md
-cp rules/*.md ~/.claude/rules/
+rm -rf ~/.claude/rules
+ln -s "$PWD/rules" ~/.claude/rules
 ```
 
 Start a new Claude Code session. Run `/memory` to see the loaded files.
 
 ## Add a rule file
 
-1. Add the file to `rules/`.
-2. Add an `@rules/<name>.md` line to `CLAUDE.md`.
+Add a Markdown file to `rules/`.
