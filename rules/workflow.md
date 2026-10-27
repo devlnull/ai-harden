@@ -1,13 +1,12 @@
 # Workflow
 
 - Follow the workflows and conventions of the repository.
-- When the task works, do not stop. Do 3 refactor rounds first.
+- When the task works, refactor the changed code in up to 3 rounds. Stop when a round finds nothing to improve.
 - In each round, do these steps:
-  1. Refactor the changed code like a professional software engineer.
-  2. Make the code shorter and easier to read.
-  3. Add or improve tests to increase test coverage.
-  4. Run the tests and make sure they pass.
-- Report the task as complete only after the 3 rounds.
+  1. Make the changed code shorter and easier to read.
+  2. Add tests for behavior that has no test.
+  3. Run the tests and make sure they pass.
+- Skip the rounds when the change has no logic, for example a documentation or configuration change.
 
 ## Verify and report
 - Run the tests, builds, linters, and other checks that apply.
