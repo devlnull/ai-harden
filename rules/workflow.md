@@ -1,6 +1,5 @@
 # Workflow
 
-- Follow the workflows and conventions of the repository.
 - When the task works, refactor the changed code in up to 3 rounds. Stop when a round finds nothing to improve.
 - In each round, do these steps:
   1. Make the changed code shorter and easier to read.
